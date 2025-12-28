@@ -8,7 +8,7 @@ const app = express();
 
 // FIX 2: Better CORS configuration
 app.use(cors({
-  origin: 'https://shibam-dev-2009.github.io',
+  origin: 'https://creative-studio-web.vercel.app',
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
