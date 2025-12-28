@@ -8,7 +8,7 @@ const app = express();
 
 // FIX 2: Better CORS configuration
 app.use(cors({
-  origin: 'https://creative-studio-web.vercel.app',
+  origin: 'https://creative-studio-backend.onrender.com',
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
