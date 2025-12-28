@@ -1,6 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+app.use(cors({
+  origin: 'https://shibam-dev-2009.github.io' 
+}));
 require("dotenv").config();
 
 const app = express();
