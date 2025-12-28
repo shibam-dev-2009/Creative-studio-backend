@@ -29,7 +29,7 @@ mongoose
   .catch((err) => console.log(err));
 
 // 1. Define the port using the environment variable Render provides
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 5000;
 
 // 2. Use that PORT variable in your listen function
 app.listen(PORT, '0.0.0.0', () => {
