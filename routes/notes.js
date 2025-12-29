@@ -26,3 +26,5 @@ router.post("/upload", auth, upload.single("pdf"), async (req, res) => {
     res.status(500).json({ message: "Server error during upload", error: error.message });
   }
 });
+
+module.exports = router;
