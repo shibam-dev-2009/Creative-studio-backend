@@ -18,9 +18,8 @@ router.get("/", async (req, res) => {
 // 2. UPLOAD A NOTE
 router.post("/upload", auth, upload.single("pdf"), async (req, res) => {
   try {
-    // Check if file exists to prevent a 500 crash
     if (!req.file) {
-      return res.status(400).json({ message: "No file uploaded. Ensure the field name is 'pdf'" });
+      return res.status(400).json({ message: "No file uploaded" });
     }
 
     const note = new Note({
@@ -28,14 +27,15 @@ router.post("/upload", auth, upload.single("pdf"), async (req, res) => {
       class: req.body.class,
       subject: req.body.subject,
       type: req.body.type,
-      filePath: req.file.path
+      // req.file.path is now the permanent Cloudinary URL
+      filePath: req.file.path 
     });
 
     await note.save();
-    res.json({ message: "Uploaded successfully" });
+    res.json({ message: "Uploaded to Cloudinary successfully!" });
   } catch (error) {
-    console.error("Upload error:", error);
-    res.status(500).json({ message: "Server error during upload", error: error.message });
+    console.error("Cloudinary Upload error:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 });
 

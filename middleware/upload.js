@@ -1,20 +1,23 @@
+const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const multer = require("multer");
-const fs = require("fs");
-const path = require("path");
 
-// Define and check for the uploads directory
-const uploadDir = 'uploads/';
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-}
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadDir);
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
-  }
+// Configure Cloudinary with your .env credentials
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-module.exports = multer({ storage });
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "notes_uploads", // Name of the folder in Cloudinary
+    resource_type: "auto",   // Important for PDFs and non-image files
+    public_id: (req, file) => Date.now() + "-" + file.originalname.split('.')[0],
+  },
+});
+
+const upload = multer({ storage: storage });
+
+module.exports = upload;
