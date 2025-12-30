@@ -34,8 +34,14 @@ router.post("/upload", auth, upload.single("pdf"), async (req, res) => {
     await note.save();
     res.json({ message: "Uploaded to Cloudinary successfully!" });
   } catch (error) {
-    console.error("Cloudinary Upload error:", error.message || error);
-    res.status(500).json({ message: "Server error", error: error.message });
+  // This will force the REAL error message to appear in Render Logs
+  console.error("DETAILED ERROR:", error.message);
+  if (error.cloudinary_error) console.error("CLOUDINARY ERROR:", error.cloudinary_error);
+
+  res.status(500).json({ 
+    message: "Server error during upload", 
+    error: error.message 
+  });
   }
 });
 
