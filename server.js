@@ -1,7 +1,7 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-require("dotenv").config();
 
 // FIX 1: Create 'app' BEFORE using it
 const app = express();
@@ -21,16 +21,16 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/admin", require("./routes/admin"));
 
 // FIX 3: Make sure 'Note' is imported if you use it here
-// const Note = require("./models/Note"); 
+const Note = require("./models/Note"); 
 
 app.delete("/api/notes/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    // Ensure the Note model is defined or imported
-    await mongoose.model("Note").findByIdAndDelete(id); 
+    await Note.findByIdAndDelete(id); 
     res.send("Deleted");
   } catch (error) {
-    res.status(500).send(error);
+    // Send a JSON error instead of the raw error object
+    res.status(500).json({ message: "Delete failed", error: error.message });
   }
 });
 
