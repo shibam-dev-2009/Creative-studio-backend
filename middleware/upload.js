@@ -14,6 +14,7 @@ const storage = new CloudinaryStorage({
   params: {
     folder: "notes_uploads", // Name of the folder in Cloudinary
     resource_type: "auto",   // Important for PDFs and non-image files
+    format: async (req, file) => 'pdf', // Force format to pdf
     public_id: (req, file) => Date.now() + "-" + file.originalname.split('.')[0],
   },
 });
